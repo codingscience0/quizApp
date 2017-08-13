@@ -1,0 +1,197 @@
+ let currentQuestion = 0;
+ let score = 0;
+ let currentAnswer = 0;
+ let userMessage = "default message";
+
+
+$ (function quizApp(){
+    $(".startButton").on("click", function(event)
+    {
+    $(".titlePage").hide(2000);
+    $(".questionPage").show(2000);
+})});
+  
+  
+  
+  
+function renderQuestion(question){
+  let template = `    <div>
+    <header><img src='http://cdn2.bigcommerce.com/server400/d8066/product_images/theme_images/Untitled_design_1.jpg?t=1494870054' class="img1"></header>
+    <div>   
+    <img class="questionImg" src = ${question.image}>
+    </div>
+    <h1 class="question">${question.title}</h1>
+    </div>
+    <div class='form'>
+    <form class= 'possibleAnswers'>
+     <div class="inputContainer"> <input type="radio" name="answer" value="0" class="A1 option"><span>${question.possiblesAnswers[0]}</span></div>
+      <div class="inputContainer"><input type="radio" name="answer" value="1" class="A2 option"><span>${question.possiblesAnswers[1]}</span></div>
+     <div class="inputContainer"> <input type="radio" name="answer" value="2" class="A3 option"><span>${question.possiblesAnswers[2]}</span></div>
+     <div class="inputContainer"> <input type="radio" name="answer" value="3" class="A4 option"><span>${question.possiblesAnswers[3]}</span></div>
+    </form>
+    </div>
+    <div>
+    <button class="submitAnswer">Submit</button>
+    </div>
+    <p class="score">Correct Answers:${score}</p>`;
+    $('.questionPage').html(template);
+    questionPage();
+    validateAnswer();
+}
+
+
+
+
+
+
+
+function answerQuestion(answer){
+  let template2 = `<div class="answerPage">
+    <div>
+      <header><img src='http://cdn2.bigcommerce.com/server400/d8066/product_images/theme_images/Untitled_design_1.jpg?t=1494870054' class="img1"></header>
+      <div>   
+    <img class="questionImg2" src = ${answer.image}>
+    </div>
+    <div>
+      <h1 class="question">${answer.title}</h1>
+    </div>
+    <div>
+      <p class="rightAnswer">${userMessage}</p>
+    </div>
+    <div>
+      <button class="next">Next Question</button>
+    </div>
+    <p class="score">Correct Answers:${score}</p>
+</div>`;
+  $('.answerPage').html(template2);
+  
+    
+}
+
+
+
+
+
+
+
+
+function questionPage(){
+    $(".submitAnswer").on("click", function(event){
+    if (currentAnswer == questionsArray[currentQuestion].answer){
+    userMessage = 'You were right! Add one to the score board.';
+    score++;
+    }
+    else{
+      userMessage = 'You were wrong.';
+    }
+    answerQuestion(questionsArray[currentQuestion]);
+    $(".questionPage").hide(2000);
+    $(".answerPage").show(2000);
+    answerPage();
+})}
+ 
+ 
+ 
+ 
+function answerPage(){
+    $(".next").on("click", function(event)
+    {if (currentQuestion<0){
+      $(".answerPage").hide(2000);
+      $(".questionPage").show(2000);
+      currentQuestion++;
+      renderQuestion(questionsArray[currentQuestion]);
+    }
+    else{
+      $(".answerPage").hide(2000);
+      $(".scorePage").fadeIn(2000);
+    }
+})}
+ 
+ 
+ 
+ 
+ function validateAnswer(){
+   console.log('validating');
+  $('.option').on('click',function () {
+    currentAnswer = $(this).val();
+  } );
+}
+
+
+
+
+
+
+  let questionsArray = [ { 
+    title: 'What fruit grows on this tree?', 
+    image: 'https://redlandrambles.files.wordpress.com/2013/07/avo-tree.jpg', 
+    answer: 1,
+    possiblesAnswers: [
+      'Apples','Avacados','Olives','Cherries',
+    ]
+  },  {
+    title: 'What is the name of this plant?', 
+    image: 'https://maxpull-gdvuch3veo.netdna-ssl.com/wp-content/uploads/2009/03/cabbage-400x265.jpg', 
+    answer: 2,
+    possiblesAnswers: [
+      'Lettuce Plant','Brussel Sprout Plant','Cabbage Plant','Squash Plant',
+    ]
+  }, { 
+    title: 'What kind of bee is this?', 
+    image: 'http://extension.missouri.edu/explore/images/g07424art01b.jpg', 
+    answer: 3,
+    possiblesAnswers: [
+      'Honey Bee','Sweet Bee','Bumblebee','Carpenter Bee',
+    ]
+  }, { 
+    title: 'This plant provides multiple uses in the garden and its kind of fuzzy', 
+    image: 'http://www.comfreycentral.com/images/comfrey.jpg', 
+    answer: 0,
+    possiblesAnswers: [
+      'Comfrey','Lemongrass','Catnip','Onion',
+    ]
+  }, { 
+    title: 'This plant climbs and runs around the garden creating long vines and bigger leaves.', 
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Komkommer_plant.jpg/300px-Komkommer_plant.jpg', 
+    answer: 3,
+    possiblesAnswers: [
+      'Garlic','Squash','Tomato','Cucmber',
+    ]
+ }, { 
+    title: 'This bug is known as the damsel bug.', 
+    image: 'http://www.ipm.iastate.edu/ipm/icm/files/images/nabis-bug_0.jpg', 
+    answer: 1,
+    possiblesAnswers: [
+      'Lady Bug','Nabidae','Hover Flies','Tachinid Flies',
+    ]
+  }, { 
+    title: 'This bug lends a helping hand with pest control.', 
+    image: 'http://www.buglogical.com/images/catalog/category53.jpg', 
+    answer: 3,
+    possiblesAnswers: [
+      'Nadibae','Hover Flies','Tachinid Flies','Lacewings',
+    ]
+  }, { 
+    title: 'This tree grows fruits that can be pretty sour.', 
+    image: 'https://www.fast-growing-trees.com/images/P/Meyer-Lemon_Tree_450_Main.jpg', 
+    answer: 0,
+    possiblesAnswers: [
+      'Lemon Tree','Apple Tree','Lime Tree','Olive Tree',
+    ]
+  }, { 
+    title: 'This plant has little tiny hairs all over it with bright yellow flowers.', 
+    image: 'http://floralartvt.com/wp-content/uploads/2010/08/zucchini-plant-1024x768.jpg',
+    answer: 2,
+    possiblesAnswers: [
+      'Corn','Green Beans','Zucchini Plant','Snap Peas',
+    ]
+  }, { 
+    title: 'These seeds grow a great pie.', 
+    image: 'https://nuts.com/images/auto/801x534/assets/c0e368ff52ffb48c.jpg', 
+    answer: 3,
+    possiblesAnswers: [
+      'Squash Seeds','Apple Seeds','Gourd Seeds','Pumpkin seeds',
+    ]
+  }];
+renderQuestion(questionsArray[0]);
+answerQuestion(questionsArray[0]);
